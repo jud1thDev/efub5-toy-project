@@ -1,10 +1,14 @@
 package com.example.efubtoy.user.service;
 
+import com.example.efubtoy.global.exception.dto.ErrorCode;
+import com.example.efubtoy.global.exception.dto.GlobalException;
 import com.example.efubtoy.tweet.repository.TweetRepository; // <-- 이 경로로 수정
 import com.example.efubtoy.user.domain.User;
+import com.example.efubtoy.user.dto.request.UserCreateRequest;
 import com.example.efubtoy.user.dto.response.UserContentDto;
 import com.example.efubtoy.user.dto.response.UserProfileDto;
 import com.example.efubtoy.user.dto.response.UserProfileWithContentResponseDto;
+import com.example.efubtoy.user.dto.response.UserResponse;
 import com.example.efubtoy.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,22 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final TweetRepository tweetRepository; // 유저의 트윗을 가져오기 위함
+
+    public UserResponse createUser(UserCreateRequest request) {
+        // 닉네임 중복 검사
+        if (userRepository.existsByNickname(request.getNickname())) {
+            throw new GlobalException(ErrorCode.INVALID_TYPE_VALUE);
+        }
+
+        User user = User.builder()
+                .username(request.getUsername())
+                .nickname(request.getNickname())
+                .bio(request.getBio())
+                .build();
+
+        userRepository.save(user);
+        return UserResponse.from(user);
+    }
 
     // 나의 프로필 조회 (프로필 정보와 작성 트윗 목록 포함)
     @Transactional(readOnly = true) // 읽기 전용 트랜잭션 설정
