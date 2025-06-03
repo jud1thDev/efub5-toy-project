@@ -23,8 +23,10 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173", "https://api.efub-toy-tmp.p-e.kr", "https://toy-project-chi.vercel.app"));
-        configuration.setAllowedMethods(List.of("*"));
+                "http://localhost:5173",
+                "https://api.efub-toy-tmp.p-e.kr",
+                "https://toy-project-chi.vercel.app"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "PATCH", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
@@ -33,6 +35,7 @@ public class SecurityConfig {
 
         return source;
     }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
