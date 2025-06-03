@@ -1,4 +1,4 @@
-FROM openjdk:17-slim // x86_64 (AMD64)용 이미지
+FROM openjdk:17-slim
 
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
