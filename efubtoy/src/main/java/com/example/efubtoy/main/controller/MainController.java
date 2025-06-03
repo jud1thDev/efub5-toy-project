@@ -4,6 +4,8 @@ import com.example.efubtoy.main.service.MainService; // ⭐ MainService 임포�
 import com.example.efubtoy.main.response.MainTweetResponse; // ⭐ MainTweetResponse 임포트
 import com.example.efubtoy.global.response.CommonResponse; // CommonResponse 임포트
 import com.example.efubtoy.tweet.dto.response.TweetListResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "Main", description = "메인 트윗 조회 API")
 @RestController
 @RequestMapping("/main") // 당신이 사용하는 매핑 경로를 사용하세요.
 public class MainController { // 또는 TweetController
@@ -24,6 +27,7 @@ public class MainController { // 또는 TweetController
     }
 
     // 메인 화면에 보여줄 모든 트윗을 가져오는 API
+    @Operation(summary = "메인 트윗 목록 조회", description = "메인 피드에 표시할 트윗 목록을 조회합니다.")
     @GetMapping
     public ResponseEntity<CommonResponse<TweetListResponse>> getTweetsForMainScreen() {
         // ⭐ MainService에서 getTweetsForMainFeed() 메서드를 호출합니다.
